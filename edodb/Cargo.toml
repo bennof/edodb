@@ -1,0 +1,30 @@
+[package]
+name = "edodb"
+description = "Driver-neutral CRUD library with SQL (SQLite, PostgreSQL, MariaDB/MySQL) and SharePoint backends"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+readme = "../README.md"
+[dependencies]
+edodb-derive = { path = "../edodb-derive", version = "0.1.0" }
+async-trait = "0.1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+chrono = { version = "0.4", features = ["serde"] }
+sqlx = { version = "0.8", features = ["runtime-tokio", "any", "sqlite", "postgres", "mysql"] }
+reqwest = { version = "0.12", features = ["json", "rustls-tls"], default-features = false }
+urlencoding = "2"
+tokio = { version = "1", features = ["macros", "rt-multi-thread"], optional = true }
+[features]
+default = ["cli"]
+# The command-line tool; library users can opt out with default-features = false.
+cli = ["dep:tokio"]
+[[bin]]
+name = "edodb"
+path = "src/bin/edodb.rs"
+required-features = ["cli"]
+[dev-dependencies]
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }

@@ -1,0 +1,15 @@
+[workspace]
+members = ["edodb", "edodb-derive"]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+authors = ["Benno Falkner"]
+repository = "https://github.com/benutzer/edodb"
+
+# Stripping proc-macro dylibs (e.g. sqlx-macros) with the current macOS linker produces
+# unloadable libraries ("mis-aligned LINKEDIT string pool"); keep build dependencies unstripped.
+[profile.release.build-override]
+strip = false
